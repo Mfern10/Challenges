@@ -62,24 +62,6 @@
 //   });
 // }
 
-
-
-const displayImage = (image) => {
-    img = document.createElement("img")
-    img.src = image
-    console.log(img.src)
-    document.body.appendChild(img)
-}
-
-const displayText = (text) => {
-  return (document.querySelector("#paragraph").innerHTML = text);
-};
-
-const displayPokemon = (pokemon, display, displayText) => {
-  display(pokemon.sprites.front_default);
-  displayText(pokemon.name);
-};
-
 // function fetchJoke(callback) {
 //   fetch("https://icanhazdadjoke.com", {
 //     headers: {
@@ -92,17 +74,68 @@ const displayPokemon = (pokemon, display, displayText) => {
 
 // fetchJoke(displayText);
 
+// const displayImage = (image) => {
+//   img = document.createElement("img");
+//   img.src = image;
+//   console.log(img.src);
+//   document.body.appendChild(img);
+// };
+
+// const displayText = (text) => {
+//   return (document.querySelector("#paragraph").innerHTML = text);
+// };
+
+// const displayPokemon = (pokemon) => {
+//   display(pokemon.sprites.front_default);
+//   displayText(pokemon.name);
+// };
+
+// const catchPokemon = (pokemonName, onSuccess, onError) => {
+//   const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+//   return fetch(url)
+//     .then((res) => {
+//       if (!res.ok) {
+//         throw new Error("ERROR!");
+//       }
+//       return res.json();
+//     })
+//     .then((data) => onSuccess(data.name))
+//     .catch((err) => onError(err));
+// };
+
+// catchPokemon("charizard", displayPokemon, console.log);
+
+
+const displayImage = (image) => {
+  const img = document.createElement("img");
+  img.src = image;
+  console.log(img.src);
+  document.body.appendChild(img);
+};
+
+const displayText = (text) => {
+  document.querySelector("#paragraph").innerHTML = text;
+};
+
+const displayPokemon = (pokemon) => {
+  displayImage(pokemon.sprites.front_default);
+  displayText(pokemon.name);
+};
+
 const catchPokemon = (pokemonName, onSuccess, onError) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
   return fetch(url)
     .then((res) => {
-        if (!res.ok) {
-          throw new Error("ERROR!");
+      if (!res.ok) {
+        throw new Error("Network error");
       }
-      return res.json()
+      return res.json();
     })
     .then((data) => onSuccess(data))
-    .catch((err) => onError(err))
+    .catch((err) => onError(err.message));
 };
 
-catchPokemon("charizard", displayPokemon, console.log);
+catchPokemon("charizard", displayPokemon, displayText);
+catchPokemon("pikachu", displayPokemon)
+catchPokemon("mew", displayPokemon)
+
